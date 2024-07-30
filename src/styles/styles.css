@@ -1,0 +1,13 @@
+.btn-primary{
+    background: #BF3B7D!important;
+    color: #fff;
+    transition: .6s;
+}
+
+.btn-primary:hover{
+    background: #9343A5!important;
+}
+
+.primary{
+    color: #BF3B7D!important;
+}

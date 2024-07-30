@@ -1,0 +1,178 @@
+ 
+import { useState } from 'react';
+import { waveform } from 'ldrs'; 
+import { Toaster, toast } from 'react-hot-toast'
+import axios from 'axios';
+import useApiRequest from './hooks/makerequest';
+import { useNavigate } from 'react-router-dom';
+
+const Login = () => {  
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');   
+const [isLoading, setisLoading] = useState(false);
+// const token = sessionStorage.getItem('accessToken') ?? ''; 
+const { data , error, loading, makeRequest } = useApiRequest()
+const navigate = useNavigate();
+const url = process.env.REACT_APP_API;
+
+
+const handleLogin = async (e) => {
+  e.preventDefault(); 
+  if (email.trim() === '') { 
+    toast.error("Fill in the Email Address")
+  }else if(password.trim() === '') {
+    toast.error("Fill in the Password")
+  }else{  
+    const formdata = new FormData(); 
+    formdata.append('email', email);
+    formdata.append('password', password);
+    formdata.append('action', 'login');
+    setisLoading(true)
+    try {
+      await toast.promise(
+        axios.post(`${url}/login`, formdata),
+        {
+          loading: 'Logging in...',
+          success: (response) => {
+            console.log(response);
+            sessionStorage.setItem('accessToken', response.token);
+            // return 'Login Successful!';
+            navigate('/dashboard');
+          },
+          error: (error) => {
+            console.error(error);
+            return `Failed to Login: ${error.message}`;
+          }
+        }
+      );
+      
+    } catch(error) {
+      console.error(error);
+      toast.error(error.message);
+    }finally {
+      setEmail('');
+      setPassword('');
+      setisLoading(false)
+    }
+ 
+
+  }
+
+  // axios.get(`${url}/users?getusers`).then((res) => {
+  //   console.log(res.data);
+  //   // sessionStorage.setItem('accessToken', res.data.token);
+  // })
+//     try {
+  //     axios.post(`http://localhost:80/api/users`, {form: 'beros'})
+  //     .then((response) =>{ 
+  //       console.log(response.data);
+  //       // sessionStorage.setItem('accessToken', response.data.token);
+
+  //   toast.success('Data fetched successfully!');
+  // })
+//   } catch (err) {
+//     console.log(err);
+//   }
+
+
+//     if(reqErorr) console.error(reqErorr);
+//     if (data) console.log(data); 
+//   }
+  
+  // let data = new FormData();
+  // await axios.get(`${url}/users?getusers`)
+  // .then((response) =>{ 
+  //   console.log(response.data);
+  //   sessionStorage.setItem('accessToken', response.data.token);
+
+  //   toast.success('Data fetched successfully!');
+  // })
+
+}
+
+ 
+    
+// try {
+//   await toast.promise(
+//       saveSettings(settings),
+//       {
+//           loading: 'Saving...',
+//           success: <b>Settings saved!</b>,
+//           error: <b>Could not save.</b>,
+//       }
+//   );
+// } catch (error) {
+waveform.register()
+  return (
+    <div> 
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
+      <div className="themes-wrapper bg-background w-full h-screen flex items-center justify-center px-4">
+        <form>
+        <div className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-sm">
+          <div className="flex flex-col space-y-1.5 p-6">
+            <h3 className="font-semibold tracking-tight text-2xl primary">Login</h3>
+            <p className="text-sm text-muted-foreground">
+              Enter your email below to login to your account.
+            </p>
+          </div>
+          <div className="p-6 pt-0 grid gap-4">
+            <div className="grid gap-2">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                id="email"
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="m@example.com"
+                required
+                value={email}
+              />
+            </div>
+            <div className="grid gap-2">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                placeholder='.....'
+                required
+              />
+            </div>
+          </div>
+          <div className="flex items-center p-6 pt-0">
+            <button type='submit' disabled={isLoading} onClick={handleLogin} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full btn-primary">
+              {isLoading ? (
+                <l-waveform
+                size="35"
+                stroke="3.5"
+                speed="1" 
+                color="white" 
+              ></l-waveform>
+              ): (
+                'Log In'
+              )}
+            </button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
