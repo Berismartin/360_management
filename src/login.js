@@ -1,5 +1,5 @@
  
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { waveform } from 'ldrs'; 
 import { Toaster, toast } from 'react-hot-toast'
 import axios from 'axios';
@@ -14,6 +14,24 @@ const [isLoading, setisLoading] = useState(false);
 const { data , error, loading, makeRequest } = useApiRequest()
 const navigate = useNavigate();
 const url = process.env.REACT_APP_API;
+ // eror of unauthorized access
+
+ 
+
+ useEffect(() =>{
+  let login = sessionStorage.getItem("accessToken");
+    if (login && login !== undefined) {
+      navigate("/dashboard");
+    }
+
+    let loginstatus = localStorage.getItem("login_error");
+    if (loginstatus) {
+      toast.error(loginstatus);
+      setTimeout(() => {
+        localStorage.removeItem('login_error');
+      }, 3000);
+    }
+ }, []);
 
 
 const handleLogin = async (e) => {
@@ -34,14 +52,18 @@ const handleLogin = async (e) => {
         {
           loading: 'Logging in...',
           success: (response) => {
-            console.log(response);
-            sessionStorage.setItem('accessToken', response.token);
-            // return 'Login Successful!';
-            navigate('/dashboard');
+            if(response.data.status === 0){
+              throw new Error(response.data.message);
+            }else{
+              console.log(response.data);
+              sessionStorage.setItem('accessToken', response.data.token);
+              // return 'Login Successful!';
+              navigate('/dashboard');
+            }
           },
           error: (error) => {
-            console.error(error);
-            return `Failed to Login: ${error.message}`;
+            // console.error(error);
+            return `${error.message}`;
           }
         }
       );
@@ -49,59 +71,14 @@ const handleLogin = async (e) => {
     } catch(error) {
       console.error(error);
       toast.error(error.message);
-    }finally {
-      setEmail('');
+    }finally { 
       setPassword('');
       setisLoading(false)
     }
  
 
   }
-
-  // axios.get(`${url}/users?getusers`).then((res) => {
-  //   console.log(res.data);
-  //   // sessionStorage.setItem('accessToken', res.data.token);
-  // })
-//     try {
-  //     axios.post(`http://localhost:80/api/users`, {form: 'beros'})
-  //     .then((response) =>{ 
-  //       console.log(response.data);
-  //       // sessionStorage.setItem('accessToken', response.data.token);
-
-  //   toast.success('Data fetched successfully!');
-  // })
-//   } catch (err) {
-//     console.log(err);
-//   }
-
-
-//     if(reqErorr) console.error(reqErorr);
-//     if (data) console.log(data); 
-//   }
-  
-  // let data = new FormData();
-  // await axios.get(`${url}/users?getusers`)
-  // .then((response) =>{ 
-  //   console.log(response.data);
-  //   sessionStorage.setItem('accessToken', response.data.token);
-
-  //   toast.success('Data fetched successfully!');
-  // })
-
 }
-
- 
-    
-// try {
-//   await toast.promise(
-//       saveSettings(settings),
-//       {
-//           loading: 'Saving...',
-//           success: <b>Settings saved!</b>,
-//           error: <b>Could not save.</b>,
-//       }
-//   );
-// } catch (error) {
 waveform.register()
   return (
     <div> 

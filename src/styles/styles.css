@@ -1,5 +1,9 @@
+
+
 .btn-primary{
     background: #BF3B7D!important;
+    outline: none!important;
+    border: none !important;
     color: #fff;
     transition: .6s;
 }
@@ -11,3 +15,21 @@
 .primary{
     color: #BF3B7D!important;
 }
+
+.sidebar{
+    height: 100vh!important;
+}
+
+.sidebar a:hover{
+    background: #BF3B7D!important;
+    color: #fff;
+}
+
+.sidebar a:active{
+    background: #9343A5!important;
+}
+
+
+body {
+    overflow: hidden; /* Hide scrollbars */
+  }
