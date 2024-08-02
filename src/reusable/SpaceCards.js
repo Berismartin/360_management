@@ -61,7 +61,7 @@ const SpaceCard = ({ spaces }) => {
                             <span>{Space.likes}</span>
                           </div>
                         </div>
-                        <Link className="btn btn-sm btn-primary" to={`/site_management/spaces/details/${Space.id}`}>
+                        <Link  className="btn btn-sm btn-primary" to={`/manage/spaces/details/${Space.id}`}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"

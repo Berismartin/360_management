@@ -61,7 +61,7 @@ const VideoCard = ({ videos}) => {
                             <span>{video.likes}</span>
                           </div>
                         </div>
-                        <Link to={`/site_management/videos/details/${video.id}`} className="btn btn-sm btn-primary">
+                        <Link to={`/manage/videos/details/${video.id}`} className="btn btn-sm btn-primary">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"

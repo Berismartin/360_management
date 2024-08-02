@@ -7,6 +7,10 @@ import Protected from './components/Protected';
 import ManageVideos from './pages/ManageVideos';
 import ManageSpaces from './pages/ManageSpaces';
 
+
+import DetailsVideo from './pages/DetailsVideo';
+import DetailsSpace from './pages/DetailsSpace';
+
 import UploadVideo from './forms/VideoAddForm';
 import UploadSpace from './forms/SpaceAddForm';
 function App() {
@@ -25,6 +29,10 @@ function App() {
 
             <Route path="/manage/videos/create" element={<Protected Component={UploadVideo} />} /> 
             <Route path="/manage/spaces/create" element={<Protected Component={UploadSpace} />} /> 
+
+
+            <Route path="/manage/videos/details/:id" element={<Protected Component={DetailsVideo} />} /> 
+            <Route path="/manage/spaces/details/:id" element={<Protected Component={DetailsSpace} />} /> 
             {/* <Route path="/profile" element={<Protected Component={ProfilePage} />} /> */}
             {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
