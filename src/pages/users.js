@@ -40,7 +40,7 @@ const Users = () => {
           <div className="container  p-2 rounded-xl  bg-base-300 shadow-xl mt-5">
             <div className="border-b-2 border-grey-200 p-5 flex justify-between">
               <h3 className="text-2xl">Active Users</h3>
-              <button className="btn btn-primary">Add User</button>
+              {/* <button className="btn btn-primary">Add User</button> */}
             </div>
             {isloading ? (
               <Skeleton />
@@ -50,9 +50,9 @@ const Users = () => {
                   <thead>
                     <tr>
                       <th>
-                        <label>
+                        {/* <label>
                           <input type="checkbox" className="checkbox" />
-                        </label>
+                        </label> */}
                       </th>
                       <th>Profile</th>
                       <th>Email</th>
@@ -65,9 +65,9 @@ const Users = () => {
                     {users.map((user, index) => (
                       <tr key={index}>
                         <th>
-                          <label>
+                          {/* <label>
                             <input type="checkbox" className="checkbox" />
-                          </label>
+                          </label> */}
                         </th>
                         <td>
                           <div className="flex items-center gap-3">

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 
 const SpaceCard = ({ spaces }) => {
+  const url = process.env.REACT_APP_API;
+
     return ( 
         <div className="grid grid-cols-3 gap-5">
                 {spaces.map((Space, index) => (
@@ -59,6 +61,25 @@ const SpaceCard = ({ spaces }) => {
                             </svg>
 
                             <span>{Space.likes}</span>
+                          </div>
+                          <div className="ms-3">
+                            <a href={url + '/uploads/spaces/'+ Space.audio} download>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="size-6 mx-auto"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                </svg>
+                                
+                                <span>Download</span>
+                            </a>
                           </div>
                         </div>
                         <Link  className="btn btn-sm btn-primary" to={`/manage/spaces/details/${Space.id}`}>

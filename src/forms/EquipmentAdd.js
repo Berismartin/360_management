@@ -159,7 +159,7 @@ const EquipmentAdd = () => {
                         stroke="3.5"
                         speed="1" 
                         color="white" 
-                        ></l-waveform> : 'Uplaod Equipment' }
+                        ></l-waveform> : 'Uploa d Equipment' }
                         </button>
                 </form> 
                 

@@ -22,13 +22,13 @@ import Departments from './pages/systemPages/departments';
 import Equipments from './pages/systemPages/equipments';
 import LeaveTypes from './pages/systemPages/leave_types';
 import LeaveRequests from './pages/systemPages/leave_requests';
-import Salaries from './pages/systemPages/salaries';
+import SalaryRecords from './pages/systemPages/salaries';
 import Doccuments from './pages/systemPages/doccuments';
 import Employees from './pages/systemPages/employees';
 import EmployeeReg from './forms/EmployeeReg';
 import ProfilePage from './pages/systemPages/profile';
 import SettingsPage from './pages/systemPages/settingsPages';
-import EmployeesPage from './pages/systemPages/employeeDetails';
+import EmployeesPage from './pages/systemPages/employeeDetails'; 
 function App() {
   return (
     <div className="App"> 
@@ -57,13 +57,13 @@ function App() {
             <Route path="/system/equipment/create" element={<Protected Component={EquipmentAdd} />} /> 
             <Route path="/system/leave_management/leave_types" element={<Protected Component={LeaveTypes} />} /> 
             <Route path="/system/leave_management/leave_requests" element={<Protected Component={LeaveRequests} />} /> 
-            <Route path="/system/salaries" element={<Protected Component={Salaries} />} /> 
+            <Route path="/system/salaries" element={<Protected Component={SalaryRecords} />} /> 
             <Route path="/system/doccuments" element={<Protected Component={Doccuments} />} /> 
             <Route path="/system/employees" element={<Protected Component={Employees} />} /> 
-            <Route path="/system/employees/register" element={<Protected Component={EmployeeReg} />} /> 
+            <Route path="/system/employees/register"  Component={EmployeeReg} /> 
             <Route path="/system/employee/details/:id" element={<Protected Component={EmployeesPage} />} /> 
             <Route path="/profile" element={<Protected Component={ProfilePage} />} />
-            <Route path="/settings" element={<Protected Component={SettingsPage} />} />
+            <Route path="/settings" element={<Protected Component={SettingsPage} />} /> 
             {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
         </BrowserRouter> 

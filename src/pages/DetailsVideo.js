@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import Skeleton from "../components/Skeleton";
 import ShowComments from "../reusable/ShowComments";
 import { FileUploader } from "react-drag-drop-files";
-
+import { useNavigate } from "react-router-dom"; 
 
 const DetailsVideo = () => {
   const [isloading, setisLoading] = useState(false);
@@ -19,12 +19,13 @@ const DetailsVideo = () => {
   const [comments, setComments] = useState([]);
   const token = sessionStorage.getItem("accessToken");
   const { id } = useParams();
-  
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   // const [isLoading, setIsloading] = useState(false);
-  
+  const [isLoading, setIsLoading] = useState(false);
+
  
   const fileTypes = ["JPG", "PNG", "GIF", "WEBP"];
   const [file, setFile] = useState(null);
@@ -41,6 +42,25 @@ const DetailsVideo = () => {
     setFile(photo);
   };
 
+  const handleDelete = async (id) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.delete(`${url}/systems/videos/delete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (response.data.status === 1) {
+        toast.success("Video deleted successfully");
+        // fetchDepartments();
+        navigate('/manage/videos')
+      } else {
+        throw new Error("Failed to delete video");
+      }
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const fetchcomments = async () => {
     setisLoadingComments(true);
@@ -365,11 +385,11 @@ const DetailsVideo = () => {
                           <p className="inline-block">{video.created_at}</p>
                         </div>
                         <button
-                          onClick={handleUpdate}
-                          disabled={isloading}
+                          onClick={() => handleDelete(video.id)}
+                          disabled={isLoading}
                           className="button btn-primary w-full mx-auto py-2 my-6 md:px-12 rounded-lg"
                         >
-                          {isloading ? (
+                          {isLoading ? (
                             <l-waveform
                               size="25"
                               stroke="3.5"

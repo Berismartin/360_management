@@ -31,14 +31,6 @@ const Sidebar = () => {
         className="flex flex-col h-full p-3 w-60 bg-base-300 border-e-2 border-gray-500
 			 dark:text-gray-800"
       >
-
-    <button className="btn btn-ghost">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-5 h-5 fill-current dark:text-gray-800">
-                    <rect width="352" height="32" x="80" y="96"></rect>
-                    <rect width="352" height="32" x="80" y="240"></rect>
-                    <rect width="352" height="32" x="80" y="384"></rect>
-                  </svg>
-                </button> 
         <div className="space-y-3">
         
           <div className="flex-1">
@@ -205,14 +197,14 @@ const Sidebar = () => {
                       Leave Types
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link
                       to="/system/leave_management/leave_requests"
                       className="flex items-center w-full p-2   transition duration-75 rounded-lg pl-11 group   dark:text-white dark:hover:bg-gray-700"
                     >
                       Leave Requests
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
               </li>
               <li className="rounded-sm">
@@ -239,7 +231,7 @@ const Sidebar = () => {
                   <span>Salaries</span>
                 </Link>
               </li>
-              <li className="rounded-sm">
+              {/* <li className="rounded-sm">
                 <Link
                   rel="noopener noreferrer"
                    to="/system/doccuments"
@@ -260,9 +252,9 @@ const Sidebar = () => {
                     />
                   </svg>
 
-                  <span>Doccuments</span>
+                  <span>Documents</span>
                 </Link>
-              </li>
+              </li> */}
               <li className="rounded-sm">
                 <button
                   type="button"

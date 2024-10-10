@@ -94,6 +94,7 @@ const Departments = () => {
         setIsLoading(true);
         const data = new FormData();
         data.append("title", department);
+        data.append("id", selectedDepartment.id);
         const response = await axios.put(
           `${url}/systems/departments/update/${selectedDepartment.id}`,
           data,

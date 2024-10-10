@@ -6,7 +6,6 @@ import { Toaster, toast } from "react-hot-toast";
 import { FileUploader } from "react-drag-drop-files";
 import axios from "axios";
 import { waveform } from "ldrs";
-import logo from "../imgs/IMG_0538.PNG"
 
 const EmployeeReg = () => {
   const [name, setName] = useState("");
@@ -26,7 +25,7 @@ const EmployeeReg = () => {
   const [resume, setFile] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [departments, setdepartments] = useState([]);
-  let submitted  = localStorage.getItem('submitted');
+
   const handleChangeResume = (resume) => {
     setFile(resume);
   };
@@ -96,8 +95,7 @@ const EmployeeReg = () => {
       );
       console.log(response.data);
       if (response.data.status === 1) {
-        toast.success("Application Submitted successfully");
-         localStorage.setItem('submitted', true)
+        toast.success("Employee registered successfully");
       } else {
         throw new Error("Failed to register employee");
       }
@@ -129,32 +127,16 @@ const EmployeeReg = () => {
 
   return (
     <div>
-      {/* <TopNav /> */}
-      <Toaster />
+      {/* <TopNav />
+      <Toaster /> */}
       <div className="flex ">
         {/* <Sidebar /> */}
-
-        {submitted ? (
-          <div class="flex mx-auto items-center justify-center h-screen">
-          <div class="p-1 m-5 rounded shadow-lg bg-gradient-to-r from-purple-500 via-green-500 to-blue-500">
-            <div class="flex flex-col items-center p-4 space-y-2 bg-slate-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="text-green-600 w-28 h-28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h1 class="text-4xl font-bold font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">Thank You !</h1>
-              <p className="text-center">Thank you for your interest! Campus 360 will soon get back to you.</p>
-              <img src={logo} alt="" className="mx-auto" style={{height: '100px'}} />
-
-            </div>
-          </div>
-        </div>
-        ): (
-<div className="p-5  w-full max-h-[90vh] overflow-scroll">
+        <div className="p-5  w-full max-h-[90vh] overflow-scroll">
           <div className="xl:w-1/2 mx-auto">
             {/* <BreadCrumb page={["System", "Register Employee"]} /> */}
-            <img src={logo} alt="" className="mx-auto" style={{height: '100px'}} />
+
             <div className="mt-5 bg-base-300 p-5 rounded-xl ">
-              <h3 className="text-xl font-bold">Employee Registration Form</h3>
+              <h3 className="text-xl">Register New Employee</h3>
               <form className="mt-5" onSubmit={handleSubmit}>
                 <div className="mt-8">
                   <input
@@ -315,8 +297,6 @@ const EmployeeReg = () => {
             </div>
           </div>
         </div>
-        )}
-        
       </div>
     </div>
   );

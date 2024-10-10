@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import Skeleton from "../components/Skeleton";
 import ShowComments from "../reusable/ShowComments";
 import { FileUploader } from "react-drag-drop-files";
-
+import { useNavigate } from "react-router-dom";
 
 const DetailsSpace = () => {
   const [isloading, setisLoading] = useState(false);
@@ -19,6 +19,7 @@ const DetailsSpace = () => {
   const [comments, setComments] = useState([]);
   const token = sessionStorage.getItem("accessToken");
   const { id } = useParams();
+const navigate = useNavigate();
 
 
 
@@ -26,6 +27,7 @@ const DetailsSpace = () => {
   const [description, setDescription] = useState("");
   const fileTypes = ["JPG", "PNG", "GIF", "WEBP"];
   const [file, setFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   waveform.register();
@@ -37,6 +39,26 @@ const DetailsSpace = () => {
 
   const handleChangePhoto = (photo) => {
     setFile(photo);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.delete(`${url}/systems/spaces/delete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (response.data.status === 1) {
+        toast.success("space deleted successfully");
+        // fetchDepartments();
+        navigate('/manage/spaces')
+      } else {
+        throw new Error("Failed to delete space");
+      }
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleUpdate = async () => {
@@ -351,11 +373,11 @@ const DetailsSpace = () => {
                       </div>
 
                       <button
-                    onClick={handleUpdate}
-                    disabled={isloading}
+                    onClick={() => handleDelete(space.id)}
+                    disabled={isLoading}
                     className="button btn-primary w-full mx-auto py-2 my-6 md:px-12 rounded-lg"
                   >
-                    {isloading ? (
+                    {isLoading ? (
                       <l-waveform
                         size="25"
                         stroke="3.5"

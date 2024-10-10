@@ -3,7 +3,7 @@ import Sidebar from "../../components/SideBar";
 import TopNav from "../../components/TopNav";
 import BreadCrumb from "../../components/BreadCrumb";
 import { Toaster, toast } from "react-hot-toast";
-
+import ToggleButton from "../../components/ToggleButton"
 const SettingsPage = () => {
   const [settings, setSettings] = useState({
     darkMode: false,
@@ -43,13 +43,7 @@ const SettingsPage = () => {
                 <span className="text-lg font-medium text-gray-300">
                   Dark Mode
                 </span>
-                <input
-                  type="checkbox"
-                  name="darkMode"
-                  checked={settings.darkMode}
-                  onChange={handleInputChange}
-                  className="toggle toggle-primary"
-                />
+                <ToggleButton /> 
               </label>
             </div>
 

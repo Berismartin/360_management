@@ -1,6 +1,15 @@
 import ToggleButton from './ToggleButton';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const TopNav = () => {
+const navigate = useNavigate();
+  const logout = () => { 
+    sessionStorage.removeItem("accessToken");   
+    
+    navigate("/");  
+  };
+
+
   return (
     <div>
       <div className="navbar shadow-md bg-base-300">
@@ -15,7 +24,7 @@ const TopNav = () => {
 							</svg>
 						</button>
 					</div>
-        </div>
+        </div> 
         <div className="flex-none gap-2">
           <div className="form-control">
             <input
@@ -40,10 +49,10 @@ const TopNav = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 mt-1">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+
               </div>
             </div>
             <ul
@@ -60,7 +69,7 @@ const TopNav = () => {
                 <Link to='/settings'>Settings</Link>
               </li>
               <li>
-                <a>Logout</a>
+                <button onClick={logout}>Logout</button>
               </li>
             </ul>
           </div>

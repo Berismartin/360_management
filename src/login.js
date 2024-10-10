@@ -5,6 +5,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import axios from 'axios';
 import useApiRequest from './hooks/makerequest';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Login = () => {  
 const [email, setEmail] = useState('');
@@ -144,6 +145,9 @@ waveform.register()
                 'Log In'
               )}
             </button>
+          </div>
+          <div className="mx-6 my-5">
+            <Link to="/system/employees/register" className='hover:primary'>Apply Here ✍🏻</Link>
           </div>
         </div>
         </form>
