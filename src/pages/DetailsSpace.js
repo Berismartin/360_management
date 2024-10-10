@@ -8,6 +8,8 @@ import BreadCrumb from "../components/BreadCrumb";
 import { useParams } from "react-router-dom";
 import Skeleton from "../components/Skeleton";
 import ShowComments from "../reusable/ShowComments";
+import { FileUploader } from "react-drag-drop-files";
+
 
 const DetailsSpace = () => {
   const [isloading, setisLoading] = useState(false);
@@ -18,7 +20,58 @@ const DetailsSpace = () => {
   const token = sessionStorage.getItem("accessToken");
   const { id } = useParams();
 
+
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const fileTypes = ["JPG", "PNG", "GIF", "WEBP"];
+  const [file, setFile] = useState(null);
+
+
   waveform.register();
+
+  const errorImageSize = () => {
+    toast.error("Image size is too big!");
+  };
+
+
+  const handleChangePhoto = (photo) => {
+    setFile(photo);
+  };
+
+  const handleUpdate = async () => {
+    setisLoading(true);
+    const form = new FormData();
+    form.append("title", title);
+    form.append("description", description);
+    form.append("thumbnail", file);
+    form.append("audio_id", id);
+
+      try {
+        const response = await axios.put(
+          `${url}/website/update/space`,
+          form, 
+          {
+            headers: { Authorization: `Bearer ${token}` , ' Content-Type': '' },
+          }
+        );
+
+        // console.log(response.data);
+
+        if (response.data.status === 1) {
+          toast.success("Space updated successfully");
+        } else {
+          throw new Error("Failed to update");
+        }
+      } catch (e) {
+        toast.error("Failed to update video!");
+        return;
+      }
+      finally {
+        setisLoading(false);
+      }
+  }
+
 
   const fetchcomments = async () => {
     setisLoadingComments(true);
@@ -30,7 +83,7 @@ const DetailsSpace = () => {
         }
       );
       setComments(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -49,7 +102,9 @@ const DetailsSpace = () => {
           }
         );
         setSpaces(response.data);
-        console.log(response.data);
+        setTitle(response.data.title);
+        setDescription(response.data.description);
+        // console.log(response.data);
       } catch (err) {
         toast.error(err.message);
       } finally {
@@ -70,9 +125,22 @@ const DetailsSpace = () => {
             <div className="container flex justify-between items-center">
               <h2 className="bold">space Details</h2>
               <div>
-                <button className="btn btn-sm btn-primary" disabled={isloading}>
-                  Save Changes
-                </button>
+              <button
+                    onClick={handleUpdate}
+                    disabled={isloading}
+                    className="button btn-primary w-full mx-auto py-2 my-6 md:px-12 rounded-lg"
+                  >
+                    {isloading ? (
+                      <l-waveform
+                        size="25"
+                        stroke="3.5"
+                        speed="1"
+                        color="white"
+                      ></l-waveform>
+                    ) : (
+                      "Save Changes"
+                    )}
+                  </button>
               </div>
             </div>
 
@@ -101,8 +169,9 @@ const DetailsSpace = () => {
                       </div>
                       <input
                         className="peer w-full h-full bg-transparent text-base-content font-sans font-normal outline outline-0 focus:outline-0  transition-all placeholder-shown:border placeholder-shown:border-base-content placeholder-shown:border-t-base-content border focus:border-t-transparent text-sm py-2.5 rounded-[7px] !pr-9  input"
-                        placeholder=" "
-                        value={space.title}
+                        placeholder="Space Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                       />
                       <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content-[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content-[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-base-content peer-focus:text-base-content before:border-base-contentpeer-focus:after:!border-gray-900">
                         space Title
@@ -130,8 +199,9 @@ const DetailsSpace = () => {
                       </div>
                       <textarea
                         className="peer w-full h-full bg-transparent text-base-content font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-base-content placeholder-shown:border-t-base-content border   border-t-transparent focus:border-t-transparent text-sm py-2.5 rounded-[7px] !pr-9  input"
-                        placeholder=" "
-                        value={space.description}
+                        placeholder="Type Space description  "
+                        value={description}
+                          onChange={(e) => setDescription(e.target.value)}
                       ></textarea>
                       <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content-[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content-[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-base-content peer-focus:text-base-content before:border-base-content peer-focus:before:!border-gray-900 after:border-base-content peer-focus:after:!border-gray-900">
                         Description
@@ -139,8 +209,42 @@ const DetailsSpace = () => {
                     </div>
                   </div>
 
+                  
+                  <div className="mt-61">
+                      <FileUploader
+                        handleChange={handleChangePhoto}
+                        name="file"
+                        types={fileTypes}
+                        maxSize="2"
+                        onSizeError={errorImageSize}
+                      />
+                    </div>
+
                   <div className="container mt-5">
                     <p>Thumbnails</p>
+                    <div className="flex gap-2">
+                      <figure>
+                        <img
+                          src={url + "/" + space.thumbnail}
+                          alt="space thumb"
+                          className="max-h-[200px] w-auto"
+                        />
+                      </figure>
+                      <figure>
+                        <img
+                          src={url + "/" + space.thumbnail}
+                          alt="space thumb"
+                          className="max-h-[200px] w-auto"
+                        />
+                      </figure>
+                      <figure>
+                        <img
+                          src={url + "/" + space.thumbnail}
+                          alt="space thumb"
+                          className="max-h-[200px] w-auto"
+                        />
+                      </figure>
+                    </div>
                   </div>
 
                   <div className="container mt-10 flex items-end">
@@ -180,20 +284,18 @@ const DetailsSpace = () => {
 
                   {/* commnets */}
 
-                 {isloadingComments ? 
-                 (<Skeleton />): (
-                    <ShowComments comments={comments}/>
-                 )}
+                  {isloadingComments ? (
+                    <Skeleton />
+                  ) : (
+                    <ShowComments comments={comments} url = {url}  commentType="spaces" />
+                  )}
                 </div>
 
                 {/* right side */}
                 <div className="w-full  col-span-1  px-6">
                   <div className="card card-compact bg-base-100 ">
                     <figure>
-                      <img
-                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                        alt="Shoes"
-                      />
+                      <img src={url + "/" + space.thumbnail} alt="space thumb" />
                     </figure>
                     <div className="card-body">
                       <h2 className="card-title">{space.title}</h2>
@@ -247,6 +349,23 @@ const DetailsSpace = () => {
                         <p className="inline-block me-3">Uploaded At</p>
                         <p className="inline-block">{space.created_at}</p>
                       </div>
+
+                      <button
+                    onClick={handleUpdate}
+                    disabled={isloading}
+                    className="button btn-primary w-full mx-auto py-2 my-6 md:px-12 rounded-lg"
+                  >
+                    {isloading ? (
+                      <l-waveform
+                        size="25"
+                        stroke="3.5"
+                        speed="1"
+                        color="white"
+                      ></l-waveform>
+                    ) : (
+                      "Delete Space"
+                    )}
+                  </button>
                     </div>
                   </div>
                 </div>

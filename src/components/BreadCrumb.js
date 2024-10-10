@@ -1,6 +1,13 @@
+import { useNavigate } from "react-router-dom";
 const BreadCrumb = ({ page }) => {
+
+  const navigate = useNavigate();
+
+  const handleBack  = () => {
+    navigate(-1);
+  }
     return ( 
-        <div className="breadcrumbs text-sm">
+        <div className="breadcrumbs flex justify-between text-sm">
         <ul>
           <li>
             <a>
@@ -51,6 +58,10 @@ const BreadCrumb = ({ page }) => {
             </span>
           </li>
         </ul>
+
+        <div>
+          <button onClick={handleBack} className="button bg-slate-700 px-3 py-1 rounded-md">back</button>
+        </div>
       </div>
      );
 }

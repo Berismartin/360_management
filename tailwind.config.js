@@ -5,7 +5,7 @@ module.exports = {
   darkMode: 'class',
   content: ["./src/**/*.{html,js}", "./node_modules/daisyui/dist/**/*.js"],
   theme: {
-    extend: {},
+    extend: { },
   },
   plugins: [
     require('daisyui'),
@@ -13,4 +13,4 @@ module.exports = {
   daisyui: {
     themes: ["light", "dark", "cupcake"],
   },
-}
+} 

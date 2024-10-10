@@ -6,17 +6,17 @@ const SpaceCard = ({ spaces }) => {
                 {spaces.map((Space, index) => (
                   <div
                     key={index}
-                    className="card card-compact bg-base-100   transition-all hover:shadow-xl hover:-translate-y-3 hover:shadow-[#893F9A] shadow-[#BF3B7D]"
+                    className="card card-compact bg-base-100 border-2 border-base-200   transition-all hover:shadow-xl hover:-translate-y-3 hover:shadow-[#893F9A] shadow-[#BF3B7D]"
                   >
                     <figure>
                       <img
-                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                        alt="Shoes"
+                        src={Space.thumbnail}
+                        alt="space thumb"
                       />
                     </figure>
                     <div className="card-body">
                       <h2 className="card-title">{Space.title}</h2>
-                      <p>{Space.description}</p>
+                      <p>{Space.description.length > 50 ? `${Space.description.slice(0, 50)}...` : Space.description}</p>
                       <div className="card-actions items-center justify-between  ">
                         <div className="flex justify-center  items-center">
                           <div>

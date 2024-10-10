@@ -20,8 +20,7 @@ const UploadVideo = () => {
     const [title, setTitle]  = useState('');
     
     const handleChange = (file) => {    
-        setFile(file); 
-                 
+        setFile(file);
     };
 
     waveform.register();

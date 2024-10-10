@@ -1,22 +1,22 @@
 import { Link } from 'react-router-dom'
 
-const VideoCard = ({ videos}) => {
+const VideoCard = ({ videos }) => {
     return ( 
         <div className="grid grid-cols-3 gap-5">
                 {videos.map((video, index) => (
                   <div
                     key={index}
-                    className="card card-compact bg-base-100  transition-all hover:shadow-xl hover:-translate-y-3 hover:shadow-[#893F9A] shadow-[#BF3B7D]"
+                    className="card card-compact bg-base-100 border-2 border-base-200 transition-all hover:shadow-xl hover:-translate-y-3 hover:shadow-[#893F9A] shadow-[#BF3B7D]"
                   >
                     <figure>
                       <img
-                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                        alt="Shoes"
+                        src={video.thumbnail}
+                        alt="video Thumbnail"
                       />
                     </figure>
                     <div className="card-body">
                       <h2 className="card-title">{video.title}</h2>
-                      <p>{video.description}</p>
+                      <p>{video.description.length > 50 ? `${video.description.slice(0, 50)}...` : video.description}</p>
                       <div className="card-actions items-center justify-between  ">
                         <div className="flex justify-center  items-center">
                           <div>

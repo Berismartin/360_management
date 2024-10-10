@@ -36,7 +36,7 @@ const ManageSpaces = () => {
       } else {
         setSpaces(response.data);
       }
-      console.log(response.data);
+      // console.log(response.data);
     } catch (err) {
       //   toast.error(err.message);
     } finally {

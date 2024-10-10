@@ -52,13 +52,13 @@ const handleLogin = async (e) => {
         {
           loading: 'Logging in...',
           success: (response) => {
-            if(response.data.status === 0){
-              throw new Error(response.data.message);
-            }else{
+            if(response.data.status === 1){
               console.log(response.data);
-              sessionStorage.setItem('accessToken', response.data.token);
-              // return 'Login Successful!';
+              sessionStorage.setItem('accessToken', response.data.token); 
               navigate('/dashboard');
+              
+            }else{
+              throw new Error(response.data.message);
             }
           },
           error: (error) => {

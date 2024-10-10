@@ -1,11 +1,12 @@
-import TopNav from "../components/TopNav";
-import Sidebar from "../components/SideBar";
-import BreadCrumb from "../components/BreadCrumb";
+import TopNav from "../../components/TopNav";
+import Sidebar from "../../components/SideBar";
+import BreadCrumb from "../../components/BreadCrumb";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
-import Skeleton from "../components/Skeleton";
-const Users = () => {
+import Skeleton from "../../components/Skeleton";
+import { Link } from "react-router-dom";
+const Employees = () => {
   const url = process.env.REACT_APP_API;
   const [users, setUsers] = useState([]);
   const token = sessionStorage.getItem("accessToken");
@@ -14,7 +15,7 @@ const Users = () => {
     const fetchUsers = async () => {
       setisLoading(true);
       try {
-        const response = await axios.get(`${url}/users/allusers`, {
+        const response = await axios.get(`${url}/system/get_data/employees`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsers(response.data);
@@ -35,12 +36,12 @@ const Users = () => {
       <div className="flex">
         <Sidebar />
         <div className="p-5 container max-h-[90vh] overflow-scroll">
-          <BreadCrumb page={["Users", "Users List"]} />
+          <BreadCrumb page={["Users", "Employee List"]} />
 
           <div className="container  p-2 rounded-xl  bg-base-300 shadow-xl mt-5">
             <div className="border-b-2 border-grey-200 p-5 flex justify-between">
-              <h3 className="text-2xl">Active Users</h3>
-              <button className="btn btn-primary">Add User</button>
+              <h3 className="text-2xl">Employees</h3>
+              <Link to="register" className="btn btn-primary">Add Employee</Link>
             </div>
             {isloading ? (
               <Skeleton />
@@ -73,40 +74,33 @@ const Users = () => {
                           <div className="flex items-center gap-3">
                             <div className="avatar">
                               <div className="mask mask-squircle h-12 w-12">
-                                { user.img[0] === 'u' ? (
-                                  <img
-                                  src={  url+ '/'+ user.img }
+                                <img
+                                  src={url+ '/' + user.photo}
                                   alt="Avatar Tailwind CSS Component"
                                 />
-                                ): (
-                                  <img
-                                  src={  user.img }
-                                  alt="Avatar Tailwind CSS Component"
-                                />
-                                )}
                               </div>
                             </div>
                             <div>
-                              <div className="font-bold">{user.username}</div>
+                              <div className="font-bold">{user.name}</div>
                               {/* <div className="text-sm opacity-50">China</div> */}
                             </div>
                           </div>
                         </td>
                         <td>{user.email}</td>
-                        <td>{user.phone}</td>
+                        <td>{user.position}</td>
                         <th>
-                          {user.verified === 1 ? (
+                          {user.status === 1 ? (
                             <button className="btn bg-green-600 btn-xs text-white">
                               Verified
                             </button>
                           ) : (
-                            <button className="btn bg-red-600 text-white btn-xs">
-                              Not Verified
+                            <button className="btn bg-orange-600 text-white btn-xs">
+                              pending
                             </button>
                           )}
                         </th>
                         <th>
-                          <button className="btn btn-sm btn-primary">
+                          <Link to={`/system/employee/details/${user.id}`} className="btn btn-sm btn-primary">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -121,8 +115,8 @@ const Users = () => {
                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                               />
                             </svg>
-                            Disable
-                          </button>
+                            Details
+                          </Link>
                         </th>
                       </tr>
                     ))}
@@ -148,4 +142,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Employees;
